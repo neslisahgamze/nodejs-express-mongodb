@@ -12,6 +12,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+require('dotenv').config();
+
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler

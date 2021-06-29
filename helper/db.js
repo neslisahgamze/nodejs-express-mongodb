@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 
 module.exports = () => {
-    const uri = "mongodb://localhost:27017/animals";
+    const uri = process.env.MONGODB_URI;
 
     MongoClient.connect(uri, function (err, db) {
         if (err) throw err
