@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.json("Index page");
-});
+const { validaResponseData } = require('../helper/validator');
+const { filterData } = require('../controller');
+
+router.route('/').post(validaResponseData, filterData);
 
 module.exports = router;

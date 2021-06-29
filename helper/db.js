@@ -1,15 +1,45 @@
 const MongoClient = require('mongodb').MongoClient;
 
-module.exports = () => {
-    const uri = process.env.MONGODB_URI;
+module.exports = async (startDate, endDate, minCount, maxCount) => {
+    const url = process.env.MONGODB_URI;
+    const client = new MongoClient(url, { useUnifiedTopology: true }); // { useUnifiedTopology: true } removes connection warnings;
+    const dbName = process.env.DATABASE_NAME;
 
-    MongoClient.connect(uri, function (err, db) {
-        if (err) throw err
-      
-        db.collection('mammals').find().toArray(function (err, result) {
-          if (err) throw err
-      
-          console.log(result)
-        })
-      })
+    // Connect
+    return client
+      .connect()
+      .then(client =>
+        client
+          .db(dbName)
+          .collection('records')
+          .aggregate([
+            {
+              '$match': {
+                'createdAt': {
+                  '$gte': new Date(startDate),
+                  '$lt': new Date(endDate)
+                }
+              }
+            },
+            {
+              '$project': {
+                'key': '$key', 
+                'createdAt': '$createdAt', 
+                'totalCount': {
+                  '$sum': '$counts'
+                }
+              }
+            }, 
+            {
+              '$match': {
+                'totalCount': {
+                  '$lt': Number(maxCount), 
+                  '$gt': Number(minCount)
+                }
+              }
+            },
+            { $unset: ["_id"] } // Hide _id from aggregation
+          ])
+        .toArray()
+      )
 }
