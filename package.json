@@ -26,5 +26,9 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "mongodb-memory-server": "^6.9.6"
-  }
+  },
+  "keywords": [
+    "example",
+    "heroku"
+  ]
 }
