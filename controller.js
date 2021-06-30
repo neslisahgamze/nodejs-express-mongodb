@@ -4,25 +4,34 @@
  */
 
  const db = require('./helper/db');
+ const { MESSAGES, CODE } = require('./constant')
 
  exports.filterData = async (req, res) => {
   const { startDate, endDate, minCount, maxCount } = req.body;
 
+  let description = MESSAGES.SUCCESS;
+
   try { 
     const records = await db(startDate, endDate, minCount, maxCount);
 
-    if (!records.length) {
-      res.json('No data available')
+    if (records && !records.length) {
+      description = MESSAGES.NOT_AVAILABLE; 
     }
 
     const payload = {
-      "code": 0,
-      "msg":"Success",
+      "code": CODE.SUCCESS,
+      "msg": description,
       records
     };
 
     res.json(payload);
   } catch(err) {
-    res.json('Error occured...');
+
+    const payload = {
+      "code": CODE.ERROR,
+      "msg": MESSAGES.ERROR,
+    };
+
+    res.json(payload)
   }
 }

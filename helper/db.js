@@ -9,7 +9,7 @@ module.exports = async (startDate, endDate, minCount, maxCount) => {
     return client
       .connect()
       .then(client =>
-        client
+          client
           .db(dbName)
           .collection('records')
           .aggregate([
@@ -41,5 +41,9 @@ module.exports = async (startDate, endDate, minCount, maxCount) => {
             { $unset: ["_id"] } // Hide _id from aggregation
           ])
         .toArray()
-      )
+      ).then((data) => {
+        return data;
+      }).finally(() => {
+        client.close() 
+      })
 }
