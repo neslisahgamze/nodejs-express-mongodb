@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 
 module.exports = async (startDate, endDate, minCount, maxCount) => {
-    const url = process.env.MONGODB_URI;
+    const url = process.env.MONGODB_URL;
     const client = new MongoClient(url, { useUnifiedTopology: true }); // { useUnifiedTopology: true } removes connection warnings;
     const dbName = process.env.DATABASE_NAME;
 

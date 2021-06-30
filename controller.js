@@ -3,7 +3,7 @@
  * @method  - POST
  */
 
- const db = require('./helper/db');
+ const query = require('./helper/query');
  const { MESSAGES, CODE } = require('./constant')
 
  exports.filterData = async (req, res) => {
@@ -12,7 +12,7 @@
   let description = MESSAGES.SUCCESS;
 
   try { 
-    const records = await db(startDate, endDate, minCount, maxCount);
+    const records = await query(startDate, endDate, minCount, maxCount);
 
     if (records && !records.length) {
       description = MESSAGES.NOT_AVAILABLE; 
