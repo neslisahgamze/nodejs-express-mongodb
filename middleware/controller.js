@@ -3,8 +3,8 @@
  * @method  - POST
  */
 
- const query = require('./helper/query');
- const { MESSAGES, CODE } = require('./constant')
+ const query = require('../helper/query');
+ const { MESSAGES, CODE } = require('../helper/constant')
 
  exports.filterData = async (req, res) => {
   const { startDate, endDate, minCount, maxCount } = req.body;
